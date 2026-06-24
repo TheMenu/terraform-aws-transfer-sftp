@@ -37,6 +37,10 @@ resource "aws_transfer_server" "default" {
   security_policy_name   = var.security_policy_name
   logging_role           = join("", aws_iam_role.logging[*].arn)
 
+  protocol_details {
+    set_stat_option = var.set_stat_option
+  }
+
   dynamic "endpoint_details" {
     for_each = local.is_vpc ? [1] : []
 
