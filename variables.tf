@@ -81,3 +81,13 @@ variable "eip_enabled" {
   description = "Whether to provision and attach an Elastic IP to be used as the SFTP endpoint. An EIP will be provisioned per subnet."
   default     = false
 }
+
+variable "set_stat_option" {
+  type        = string
+  description = "Whether to ignore SETSTAT commands sent by SFTP clients after file upload. ENABLE_NO_OP silently accepts the command without setting attributes on S3, preventing client errors on clients that preserve timestamps or permissions. Valid values: DEFAULT, ENABLE_NO_OP."
+  default     = "ENABLE_NO_OP"
+  validation {
+    condition     = contains(["DEFAULT", "ENABLE_NO_OP"], var.set_stat_option)
+    error_message = "set_stat_option must be either DEFAULT or ENABLE_NO_OP."
+  }
+}
